@@ -1,0 +1,364 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A656DD9B1E7DF83800486F13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A656DD9A1E7DF83800486F13 /* AppDelegate.m */; };
+		A656DD9E1E7DF83800486F13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A656DD9D1E7DF83800486F13 /* main.m */; };
+		A656DDA01E7DF83800486F13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A656DD9F1E7DF83800486F13 /* Assets.xcassets */; };
+		A656DDA31E7DF83800486F13 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A656DDA11E7DF83800486F13 /* MainMenu.xib */; };
+		A656DDD51E7EE6E000486F13 /* NLMinMax.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = A656DDD31E7DF89000486F13 /* NLMinMax.plugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A656DDD81E7EE79D00486F13 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A656DDD71E7EE79D00486F13 /* CoreImage.framework */; };
+		A656DDDA1E7EFC6B00486F13 /* data.bin in Resources */ = {isa = PBXBuildFile; fileRef = A656DDD91E7EFC6B00486F13 /* data.bin */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A656DDD21E7DF89000486F13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A656DDCE1E7DF88E00486F13 /* NLMinMax.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A656DDB41E7DF88E00486F13;
+			remoteInfo = NLMinMax;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A656DDD41E7EE6DC00486F13 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A656DDD51E7EE6E000486F13 /* NLMinMax.plugin in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A656DD961E7DF83800486F13 /* ImageMinMaxCoreImageFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageMinMaxCoreImageFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A656DD991E7DF83800486F13 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		A656DD9A1E7DF83800486F13 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		A656DD9D1E7DF83800486F13 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A656DD9F1E7DF83800486F13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A656DDA21E7DF83800486F13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		A656DDA41E7DF83800486F13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A656DDCE1E7DF88E00486F13 /* NLMinMax.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NLMinMax.xcodeproj; path = NLMinMax/NLMinMax.xcodeproj; sourceTree = "<group>"; };
+		A656DDD71E7EE79D00486F13 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		A656DDD91E7EFC6B00486F13 /* data.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = data.bin; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A656DD931E7DF83800486F13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A656DDD81E7EE79D00486F13 /* CoreImage.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A656DD8D1E7DF83800486F13 = {
+			isa = PBXGroup;
+			children = (
+				A656DDCE1E7DF88E00486F13 /* NLMinMax.xcodeproj */,
+				A656DD981E7DF83800486F13 /* ImageMinMaxCoreImageFilter */,
+				A656DD971E7DF83800486F13 /* Products */,
+				A656DDD61E7EE79D00486F13 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A656DD971E7DF83800486F13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A656DD961E7DF83800486F13 /* ImageMinMaxCoreImageFilter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A656DD981E7DF83800486F13 /* ImageMinMaxCoreImageFilter */ = {
+			isa = PBXGroup;
+			children = (
+				A656DD991E7DF83800486F13 /* AppDelegate.h */,
+				A656DD9A1E7DF83800486F13 /* AppDelegate.m */,
+				A656DD9F1E7DF83800486F13 /* Assets.xcassets */,
+				A656DDA11E7DF83800486F13 /* MainMenu.xib */,
+				A656DDA41E7DF83800486F13 /* Info.plist */,
+				A656DD9C1E7DF83800486F13 /* Supporting Files */,
+			);
+			path = ImageMinMaxCoreImageFilter;
+			sourceTree = "<group>";
+		};
+		A656DD9C1E7DF83800486F13 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A656DDD91E7EFC6B00486F13 /* data.bin */,
+				A656DD9D1E7DF83800486F13 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A656DDCF1E7DF88E00486F13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A656DDD31E7DF89000486F13 /* NLMinMax.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A656DDD61E7EE79D00486F13 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A656DDD71E7EE79D00486F13 /* CoreImage.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A656DD951E7DF83800486F13 /* ImageMinMaxCoreImageFilter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A656DDA71E7DF83800486F13 /* Build configuration list for PBXNativeTarget "ImageMinMaxCoreImageFilter" */;
+			buildPhases = (
+				A656DD921E7DF83800486F13 /* Sources */,
+				A656DD931E7DF83800486F13 /* Frameworks */,
+				A656DD941E7DF83800486F13 /* Resources */,
+				A656DDD41E7EE6DC00486F13 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImageMinMaxCoreImageFilter;
+			productName = ImageMinMaxCoreImageFilter;
+			productReference = A656DD961E7DF83800486F13 /* ImageMinMaxCoreImageFilter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A656DD8E1E7DF83800486F13 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Demitri Muna";
+				TargetAttributes = {
+					A656DD951E7DF83800486F13 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A656DD911E7DF83800486F13 /* Build configuration list for PBXProject "ImageMinMaxCoreImageFilter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A656DD8D1E7DF83800486F13;
+			productRefGroup = A656DD971E7DF83800486F13 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A656DDCF1E7DF88E00486F13 /* Products */;
+					ProjectRef = A656DDCE1E7DF88E00486F13 /* NLMinMax.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				A656DD951E7DF83800486F13 /* ImageMinMaxCoreImageFilter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A656DDD31E7DF89000486F13 /* NLMinMax.plugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NLMinMax.plugin;
+			remoteRef = A656DDD21E7DF89000486F13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A656DD941E7DF83800486F13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A656DDA01E7DF83800486F13 /* Assets.xcassets in Resources */,
+				A656DDDA1E7EFC6B00486F13 /* data.bin in Resources */,
+				A656DDA31E7DF83800486F13 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A656DD921E7DF83800486F13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A656DD9E1E7DF83800486F13 /* main.m in Sources */,
+				A656DD9B1E7DF83800486F13 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A656DDA11E7DF83800486F13 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A656DDA21E7DF83800486F13 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A656DDA51E7DF83800486F13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A656DDA61E7DF83800486F13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A656DDA81E7DF83800486F13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ImageMinMaxCoreImageFilter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.demitri.ImageMinMaxCoreImageFilter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A656DDA91E7DF83800486F13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ImageMinMaxCoreImageFilter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.demitri.ImageMinMaxCoreImageFilter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A656DD911E7DF83800486F13 /* Build configuration list for PBXProject "ImageMinMaxCoreImageFilter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A656DDA51E7DF83800486F13 /* Debug */,
+				A656DDA61E7DF83800486F13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A656DDA71E7DF83800486F13 /* Build configuration list for PBXNativeTarget "ImageMinMaxCoreImageFilter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A656DDA81E7DF83800486F13 /* Debug */,
+				A656DDA91E7DF83800486F13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A656DD8E1E7DF83800486F13 /* Project object */;
+}

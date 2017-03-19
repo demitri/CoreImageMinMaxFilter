@@ -1,0 +1,32 @@
+
+
+kernel vec4 nl_minimum_filter(sampler src_image)
+{
+	vec2 i = destCoord(); // location of thix pixel in output image
+
+	// grab 2x2 square of pixels from source image that this pixel maps to
+	vec4 p1 = unpremultiply(sample(src_image, vec2(2 * i.x    , 2 * i.y    )));
+	vec4 p2 = unpremultiply(sample(src_image, vec2(2 * i.x    , 2 * i.y + 1)));
+	vec4 p3 = unpremultiply(sample(src_image, vec2(2 * i.x + 1, 2 * i.y    )));
+	vec4 p4 = unpremultiply(sample(src_image, vec2(2 * i.x + 1, 2 * i.y + 1)));
+
+	float minValue = p1.r;
+
+	// compare all pixels, excluding pixels that are ouside of source image
+	//
+	//minValue = p2.r < minValue && p2.a > 0 ? p2.r : minValue; // pixels outside of extent have a = 0
+	//minValue = p3.r < minValue && p3.a > 0 ? p3.r : minValue;
+	//minValue = p4.r < minValue && p4.a > 0 ? p4.r : minValue;
+
+	minValue = p2.a > 0 ? min(minValue, p2.r) : minValue;
+	minValue = p3.a > 0 ? min(minValue, p3.r) : minValue;
+	minValue = p4.a > 0 ? min(minValue, p4.r) : minValue;
+
+	// don't need to premultiply as alpha = 1
+
+	//return vec4(3, 3, 3, 1);
+	//return vec4(0.5, 0.5, 0.5, 1);
+	return vec4(minValue, minValue, minValue, 1);
+}
+
+
