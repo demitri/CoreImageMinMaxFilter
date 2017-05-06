@@ -37,8 +37,8 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	[self _loadCustomCIFilters];
 	
 	// get source CIImage (choose one), self.imageExtent is set in each method
-//	self.sourceImage = [self _readImageFromFile];
-	self.sourceImage = [self _generateRandomImage];
+	self.sourceImage = [self _readImageFromFile];
+//	self.sourceImage = [self _generateRandomImage];
 
 	// display source image
 	NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:self.sourceImage];
@@ -149,14 +149,19 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	// print the min, max values calculated by hand
 	float min = data[0];
 	float max = data[0];
+	unsigned int notFiniteCount = 0;
 	for (unsigned int i=1; i < n; i++) {
 		if (data[i] < min)
 			min = data[i];
 		if (data[i] > max)
 			max = data[i];
+		if (!isfinite(data[i])) {
+			notFiniteCount++;
+		}
 	}
 	NSLog(@"Minimum value in original array: %f", min);
 	NSLog(@"Maximum value in original array: %f", max);
+	NSLog(@"No. of non-finite values: %d", notFiniteCount);
 	
 	normalizeFloatArray01MinMax(data, n, min, max);
 

@@ -2,13 +2,15 @@
 
 kernel vec4 nl_minimum_filter(sampler src_image)
 {
-	vec2 i = destCoord(); // location of thix pixel in output image
+	vec2 i = destCoord(); // location of this pixel in output image (current location in destination space)
+
+	// sample(image, vec2(position)) -> image texturing from
 
 	// grab 2x2 square of pixels from source image that this pixel maps to
-	vec4 p1 = unpremultiply(sample(src_image, vec2(2 * i.x    , 2 * i.y    )));
-	vec4 p2 = unpremultiply(sample(src_image, vec2(2 * i.x    , 2 * i.y + 1)));
-	vec4 p3 = unpremultiply(sample(src_image, vec2(2 * i.x + 1, 2 * i.y    )));
-	vec4 p4 = unpremultiply(sample(src_image, vec2(2 * i.x + 1, 2 * i.y + 1)));
+	vec4 p1 = unpremultiply(sample(src_image, vec2(2.0 * i.x      , 2.0 * i.y      )));
+	vec4 p2 = unpremultiply(sample(src_image, vec2(2.0 * i.x      , 2.0 * i.y + 1.0)));
+	vec4 p3 = unpremultiply(sample(src_image, vec2(2.0 * i.x + 1.0, 2.0 * i.y      )));
+	vec4 p4 = unpremultiply(sample(src_image, vec2(2.0 * i.x + 1.0, 2.0 * i.y + 1.0)));
 
 	float minValue = p1.r;
 
@@ -18,9 +20,9 @@ kernel vec4 nl_minimum_filter(sampler src_image)
 	//minValue = p3.r < minValue && p3.a > 0 ? p3.r : minValue;
 	//minValue = p4.r < minValue && p4.a > 0 ? p4.r : minValue;
 
-	minValue = p2.a > 0 ? min(minValue, p2.r) : minValue;
-	minValue = p3.a > 0 ? min(minValue, p3.r) : minValue;
-	minValue = p4.a > 0 ? min(minValue, p4.r) : minValue;
+	minValue = p2.a > 0.0 ? min(minValue, p2.r) : minValue;
+	minValue = p3.a > 0.0 ? min(minValue, p3.r) : minValue;
+	minValue = p4.a > 0.0 ? min(minValue, p4.r) : minValue;
 
 	// don't need to premultiply as alpha = 1
 

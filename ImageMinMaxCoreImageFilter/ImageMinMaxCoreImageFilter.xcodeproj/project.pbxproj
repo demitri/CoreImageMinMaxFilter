@@ -357,6 +357,7 @@
 				A656DDA91E7DF83800486F13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
