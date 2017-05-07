@@ -174,7 +174,7 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	NSLog(@"Maximum value in original array: %f", max);
 	NSLog(@"No. of non-finite values: %d", notFiniteCount);
 	
-	//normalizeFloatArray01MinMax(data, n, min, max);
+	normalizeFloatArray01MinMax(data, n, min, max);
 
 	return [self _ciImageFromData:data
 						   length:width*height*sizeof(float)
