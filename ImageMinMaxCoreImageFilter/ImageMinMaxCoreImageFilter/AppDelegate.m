@@ -66,23 +66,34 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	self.destImageView.image = nsImage;
 	
 	// read individual pixel values to see if the filter worked
-	CIContext *context = [[CIContext alloc] init];
+	CIContext *context = [CIContext contextWithOptions:@{kCIContextOutputColorSpace:[NSNull null],
+														 kCIContextWorkingColorSpace:[NSNull null]}];
 	CGImageRef cgImageRef = [context createCGImage:outputImage
-											 fromRect:outputImage.extent];
+										  fromRect:outputImage.extent];
 	CFDataRef rawData = CGDataProviderCopyData(CGImageGetDataProvider(cgImageRef));
 	UInt8 * buf = (UInt8 *) CFDataGetBytePtr(rawData);
+	float *floatPointer = (float*) CFDataGetBytePtr(rawData);
+
 	CFIndex length = CFDataGetLength(rawData);
 
 	NSLog(@"data length: %ld", length);
+	int minValue = INT_MAX;
+	int maxValue = -INT_MAX;
 	
 	// print out all pixel values
 	for (CFIndex i=0; i < length; i+=4) {
-		int r = buf[0];
-		int g = buf[1];
-		int b = buf[2];
-		int a = buf[2];
-		NSLog(@"Pixels: rbg[%ld] = [%d, %d, %d, %d]", i/4, r, g, b, a);
+		int r = buf[i+0];
+		int g = buf[i+1];
+		int b = buf[i+2];
+		int a = buf[i+3];
+		NSLog(@"Pixels: rbg[%ld] = [%.2f, %.2f, %.2f, %.2f]", i/4, r/255., g/255., b/255., a/255.);
+		
+		minValue = MIN(minValue, r);
+		maxValue = MAX(maxValue, r);
 	}
+	
+	NSLog(@"Min pixel from filter: %.2f", minValue/255.);
+	NSLog(@"Max pixel from filter: %.2f", maxValue/255.);
 	
 	CFRelease(rawData);
 }
@@ -163,7 +174,7 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	NSLog(@"Maximum value in original array: %f", max);
 	NSLog(@"No. of non-finite values: %d", notFiniteCount);
 	
-	normalizeFloatArray01MinMax(data, n, min, max);
+	//normalizeFloatArray01MinMax(data, n, min, max);
 
 	return [self _ciImageFromData:data
 						   length:width*height*sizeof(float)
@@ -183,14 +194,14 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	
 	CGImageRef cgImage = CGImageCreate(width,			// size_t width
 									   height,			// size_t height
-									   32,				// size_t bitsPerComponent (float=32)
+									   32,				// size_t bitsPerComponent (float: 4 bytes = 32 bits)
 									   32,				// size_t bitsPerPixel == bitsPerComponent for float
 									   bytesPerRow,		// size_t bytesPerRow
 									   colorSpace,		// CGColorSpaceRef
 									   bitmapInfo,		// CGBitmapInfo
 									   dataProvider,	// CGDataProviderRef
 									   NULL,			// const CGFloat decode[] - NULL = do not want to allow
-									   //   remapping of the image’s color values
+														//   remapping of the image’s color values
 									   NO,				// shouldInterpolate
 									   kCGRenderingIntentDefault); // CGColorRenderingIntent
 	

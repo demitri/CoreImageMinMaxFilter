@@ -1,17 +1,33 @@
 
 
-kernel vec4 nl_minimum_filter(sampler src_image)
+kernel vec4 nl_minimum_filter(sampler src_image) // sampler destSampler,
 {
 	vec2 i = destCoord(); // location of this pixel in output image (current location in destination space)
 
 	// sample(image, vec2(position)) -> image texturing from
 
 	// grab 2x2 square of pixels from source image that this pixel maps to
+	// (unpremultiply probably unnecessary since alpha values are always either 0 or 1).
+	//
 	vec4 p1 = unpremultiply(sample(src_image, vec2(2.0 * i.x      , 2.0 * i.y      )));
 	vec4 p2 = unpremultiply(sample(src_image, vec2(2.0 * i.x      , 2.0 * i.y + 1.0)));
 	vec4 p3 = unpremultiply(sample(src_image, vec2(2.0 * i.x + 1.0, 2.0 * i.y      )));
 	vec4 p4 = unpremultiply(sample(src_image, vec2(2.0 * i.x + 1.0, 2.0 * i.y + 1.0)));
 
+/*
+	// This is the approach if we are applying any transformations to the source image,
+	// which we are not.
+
+	vec2 pix1 = samplerTransform(src_image, vec2(2.0 * i.x      , 2.0 * i.y      ));
+	vec2 pix2 = samplerTransform(src_image, vec2(2.0 * i.x      , 2.0 * i.y + 1.0));
+	vec2 pix3 = samplerTransform(src_image, vec2(2.0 * i.x + 1.0, 2.0 * i.y      ));
+	vec2 pix4 = samplerTransform(src_image, vec2(2.0 * i.x + 1.0, 2.0 * i.y      ));
+
+	vec4 p1 = unpremultiply(sample(src_image, pix1));
+	vec4 p2 = unpremultiply(sample(src_image, pix2));
+	vec4 p3 = unpremultiply(sample(src_image, pix3));
+	vec4 p4 = unpremultiply(sample(src_image, pix4));
+*/
 	float minValue = p1.r;
 
 	// compare all pixels, excluding pixels that are ouside of source image
@@ -30,5 +46,4 @@ kernel vec4 nl_minimum_filter(sampler src_image)
 	//return vec4(0.5, 0.5, 0.5, 1);
 	return vec4(minValue, minValue, minValue, 1);
 }
-
 

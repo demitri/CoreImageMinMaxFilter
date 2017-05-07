@@ -6,8 +6,8 @@
 //  Copyright © 2017 Demitri Muna. All rights reserved.
 //
 
-/* This filter calculates the minimum or maximum float value
-   from a CIImage.
+/*
+ This reduction filter calculates the minimum or maximum float value from a CIImage.
  */
 
 #import <QuartzCore/QuartzCore.h>
