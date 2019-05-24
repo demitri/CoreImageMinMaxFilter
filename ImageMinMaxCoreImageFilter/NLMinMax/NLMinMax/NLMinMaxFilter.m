@@ -29,7 +29,8 @@ BOOL is_power_of_two(unsigned int x) {
 unsigned int next_power_of_two (unsigned int n) {
 	//
 	// Ref: http://stackoverflow.com/questions/1322510/given-an-integer-how-do-i-find-the-next-largest-power-of-two-using-bit-twiddlin
-	//		https://web.archive.org/web/20160703165415/https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2Float
+	//		https://web.archive.org/web/20160703165415/
+    //      https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2Float
 	//
 	n--;
 	n |= n >> 1;   // Divide by 2^k for consecutive doublings of k up to 32,
@@ -92,7 +93,7 @@ static CIKernel *_NLMinMaxFilterKernel = nil;
 	//===
 	
 	//NSLog(@"sample extent: %@", NSStringFromRect([obj extent]));
-	return CGRectMake(0, 0, 242, 242);
+	return CGRectMake(0, 0, 242, 242); // this is hard coded for testing
 }
 
 // called when setting up for fragment program and also calls fragment program

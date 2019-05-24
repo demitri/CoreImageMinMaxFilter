@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "math.h"
 @import CoreImage;
 
 // This takes a float array and normalizes it to [0,1]
@@ -36,6 +37,10 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	
 	[self _loadCustomCIFilters];
 	
+	// -----------------------------------------------
+	// Load image from file, display unaltered in view
+	// -----------------------------------------------
+	
 	// get source CIImage (choose one), self.imageExtent is set in each method
 	self.sourceImage = [self _readImageFromFile];
 //	self.sourceImage = [self _generateRandomImage];
@@ -46,7 +51,10 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	[nsImage addRepresentation:rep];
 	self.sourceImageView.image = nsImage;
 
-	// register CIFilter
+	// --------------------------------
+	// Repeat, but apply NLMinMaxFilter
+	// --------------------------------
+	// register min/max CIFilter
 	CIFilter *minMaxFilter = [CIFilter filterWithName:@"NLMinMaxFilter"];
 	NSAssert(minMaxFilter, @"minMaxFilter not created");
 	
@@ -65,14 +73,19 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	[nsImage addRepresentation:rep];
 	self.destImageView.image = nsImage;
 	
-	// read individual pixel values to see if the filter worked
+	// --------------------------------------------
+	// Read the pixel values from the output image.
+	// --------------------------------------------
+	
+	// Read individual pixel values to see if the filter worked.
+	// Make sure color space operations are being performed anywhere.
 	CIContext *context = [CIContext contextWithOptions:@{kCIContextOutputColorSpace:[NSNull null],
 														 kCIContextWorkingColorSpace:[NSNull null]}];
 	CGImageRef cgImageRef = [context createCGImage:outputImage
 										  fromRect:outputImage.extent];
 	CFDataRef rawData = CGDataProviderCopyData(CGImageGetDataProvider(cgImageRef));
 	UInt8 * buf = (UInt8 *) CFDataGetBytePtr(rawData);
-	float *floatPointer = (float*) CFDataGetBytePtr(rawData);
+	float *floatPointer = (float*) CFDataGetBytePtr(rawData); // <- does not contain the values I'm expecting
 
 	CFIndex length = CFDataGetLength(rawData);
 
