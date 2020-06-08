@@ -19,7 +19,7 @@ BOOL is_power_of_two(unsigned int x) {
 	//
 	// Ref: http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
 	//
-	// Note that this assumes that x will never be zero - use this if that's a possiblility:
+	// Note that this assumes that x will never be zero - use this if that's a possibility:
 	//
 	//	return (x && ((x & (~x + 1)) == x));
 	//
@@ -34,7 +34,7 @@ unsigned int next_power_of_two (unsigned int n) {
 	//
 	n--;
 	n |= n >> 1;   // Divide by 2^k for consecutive doublings of k up to 32,
-	n |= n >> 2;   // and then or the results.
+	n |= n >> 2;   // and then OR the results.
 	n |= n >> 4;
 	n |= n >> 8;
 	n |= n >> 16;
@@ -49,6 +49,7 @@ unsigned int next_power_of_two (unsigned int n) {
 @interface NLMinMaxFilter ()
 @property (nonatomic, strong) CIColor *transparentBlackColor;
 @property (nonatomic, strong) CIFilter *colorFillFilter;
+@property (nonatomic, assign) unsigned int currentEdgeLength;
 @end
 
 #pragma mark -
@@ -86,14 +87,20 @@ static CIKernel *_NLMinMaxFilterKernel = nil;
 - (CGRect)regionOf:(int)samplerIndex destRect:(CGRect)r userInfo:obj
 {
 	// This method is required when the destination pixel uses more than one pixel from the source image.
-	// It is required when the region of intereast (ROI) and domain of defintion (DoD) do not coincide,
+	// It is required when the region of interest (ROI) and domain of defintion (DoD) do not coincide,
 	// which will always be the case with a reduction filter.
 	//
 	// Ref: https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/ImageUnitTutorial/Overview/Overview.html#//apple_ref/doc/uid/TP40004531-CH6-SW2
 	//===
 	
 	//NSLog(@"sample extent: %@", NSStringFromRect([obj extent]));
-	return CGRectMake(0, 0, 242, 242); // this is hard coded for testing
+	
+	// Note: this only seems to be called after outputImage: has been called?
+	
+	if (self.currentEdgeLength > 2)
+		return CGRectInset(r, -1.0, -1.0);
+	else
+		return r;
 }
 
 // called when setting up for fragment program and also calls fragment program
@@ -126,19 +133,29 @@ static CIKernel *_NLMinMaxFilterKernel = nil;
 		inputImage = [inputImage imageByCompositingOverImage:powerOfTwoImage];				// composite inputImage onto square
 	}
 	
+	self.currentEdgeLength = n;
+	
 	CISampler *src = [CISampler samplerWithImage:inputImage
 										 options:@{kCISamplerFilterMode : kCISamplerFilterNearest,
 												   kCISamplerWrapMode   : kCISamplerWrapBlack}]; // might also work with "kCISamplerWrapClamp", may be faster?
 	
-    return [self apply:_NLMinMaxFilterKernel,
-			// samplers
-			src,
-			// inputs
-			// -- none --
-			// options
-			kCIApplyOptionExtent, @[@(0), @(0), @(n/2.), @(n/2.)], // origin x, origin y, width, height
-			kCIApplyOptionUserInfo, src,
-			nil];
+	CIImage *output;
+	
+	// Iteravely apply filter until the output image is a single pixel.
+	while (n > 1) {
+		output = [self apply:_NLMinMaxFilterKernel,
+					// samplers
+					src,
+					// inputs
+					// -- none --
+					// options
+					kCIApplyOptionExtent, @[@(0), @(0), @(n/2.), @(n/2.)], /// size of the output image: origin x, origin y, width, height
+					kCIApplyOptionUserInfo, src,
+					nil];
+		n /= 2.;
+		self.currentEdgeLength = n;
+	}
+	return output;  // should return a single pixel
 }
 
 @end

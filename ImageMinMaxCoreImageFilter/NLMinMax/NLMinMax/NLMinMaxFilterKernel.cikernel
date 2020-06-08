@@ -42,8 +42,8 @@ kernel vec4 nl_minimum_filter(sampler src_image) // sampler destSampler,
 
 	// don't need to premultiply as alpha = 1
 
-	//return vec4(3, 3, 3, 1);
-	//return vec4(0.5, 0.5, 0.5, 1);
+	//return vec4(3, 3, 3, 1); // -> returns min/max of 1; seems to expect range of [0,1]
+	//return vec4(0.25, 0.25, 0.25, 1); // -> returns 0.6804 as min/max; precision not very high? ints from 0-255?
 	return vec4(minValue, minValue, minValue, 1);
 }
 

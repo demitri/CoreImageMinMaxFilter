@@ -43,7 +43,7 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	
 	// get source CIImage (choose one), self.imageExtent is set in each method
 	self.sourceImage = [self _readImageFromFile];
-//	self.sourceImage = [self _generateRandomImage];
+	//self.sourceImage = [self _generateRandomImage];
 
 	// display source image
 	NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:self.sourceImage];
@@ -76,39 +76,73 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	// --------------------------------------------
 	// Read the pixel values from the output image.
 	// --------------------------------------------
-	
-	// Read individual pixel values to see if the filter worked.
-	// Make sure color space operations are being performed anywhere.
-	CIContext *context = [CIContext contextWithOptions:@{kCIContextOutputColorSpace:[NSNull null],
-														 kCIContextWorkingColorSpace:[NSNull null]}];
-	CGImageRef cgImageRef = [context createCGImage:outputImage
-										  fromRect:outputImage.extent];
-	CFDataRef rawData = CGDataProviderCopyData(CGImageGetDataProvider(cgImageRef));
-	UInt8 * buf = (UInt8 *) CFDataGetBytePtr(rawData);
-	float *floatPointer = (float*) CFDataGetBytePtr(rawData); // <- does not contain the values I'm expecting
-
-	CFIndex length = CFDataGetLength(rawData);
-
-	NSLog(@"data length: %ld", length);
-	int minValue = INT_MAX;
-	int maxValue = -INT_MAX;
-	
-	// print out all pixel values
-	for (CFIndex i=0; i < length; i+=4) {
-		int r = buf[i+0];
-		int g = buf[i+1];
-		int b = buf[i+2];
-		int a = buf[i+3];
-		NSLog(@"Pixels: rbg[%ld] = [%.2f, %.2f, %.2f, %.2f]", i/4, r/255., g/255., b/255., a/255.);
+	{
+		/*
+		// Option 1, based on
+		// https://stackoverflow.com/a/3763313/2712652
+		//
 		
-		minValue = MIN(minValue, r);
-		maxValue = MAX(maxValue, r);
+		// The bitmap context created here is invalid.
+		
+		CGImageRef outputImageRef = outputImage.CGImage;
+		float pixel[3] = {0,0,0}; // one pixel, three floats (RGB), no alpha
+		uint32_t bitmapInfo = kCGImagePixelFormatPacked | kCGImageAlphaNone;// | kCGBitmapByteOrder32Host | kCGBitmapFloatComponents; <-- lead to invalid context
+		CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+
+		CGContextRef outputImageContext = CGBitmapContextCreate(pixel,		// data
+																1,			// width
+																1,			// height
+																8,			// bits per component
+																1,			// bytes per row
+																colorspace,	// colorspace ref
+																bitmapInfo); // bitmapInfo
+		CGContextDrawImage(outputImageContext, CGRectMake(0, 0, 1, 1), outputImageRef);
+		CGContextRelease(outputImageContext);
+		CGColorSpaceRelease(colorspace);
+		NSLog(@"option 1 pixel value = %f\n", pixel[0]);
+		 */
 	}
 	
-	NSLog(@"Min pixel from filter: %.2f", minValue/255.);
-	NSLog(@"Max pixel from filter: %.2f", maxValue/255.);
+	 // ----------------------------
 	
-	CFRelease(rawData);
+	// Read individual pixel values to see if the filter worked.
+	// Make sure color space operations are not being performed anywhere.
+	{
+		// Option 2
+		//
+		CIContext *context = [CIContext contextWithOptions:@{kCIContextOutputColorSpace:[NSNull null],
+															 kCIContextWorkingColorSpace:[NSNull null]}];
+		CGImageRef cgImageRef = [context createCGImage:outputImage
+											  fromRect:outputImage.extent];
+		CFDataRef rawData = CGDataProviderCopyData(CGImageGetDataProvider(cgImageRef));
+		UInt8 * buf = (UInt8 *) CFDataGetBytePtr(rawData);
+		float *floatPointer = (float*) CFDataGetBytePtr(rawData); // <- does not contain the values I'm expecting
+
+		CFIndex length = CFDataGetLength(rawData);
+		NSLog(@"data length: %ld (sqrt=%.f)", length, sqrtf((float)length));
+
+		length = 4; // except length should be 3 (RGB) or 4 (RGBA) -> one pixel; rest of array is zeros
+		
+		int minValue = INT_MAX;
+		int maxValue = -INT_MAX;
+		
+		// print out all pixel values
+		for (CFIndex i=0; i < length; i+=4) {
+			int r = buf[i+0];
+			int g = buf[i+1];
+			int b = buf[i+2];
+			int a = buf[i+3];
+			NSLog(@"Pixels: rbg[%ld] = [%.5f, %.5f, %.5f, %.5f]", i/4, r/255., g/255., b/255., a/255.);
+			
+			minValue = MIN(minValue, r);
+			maxValue = MAX(maxValue, r);
+		}
+		
+		NSLog(@"Min pixel from filter: %.5f", minValue/255.);
+		NSLog(@"Max pixel from filter: %.5f", maxValue/255.);
+		
+		CFRelease(rawData);
+	}
 }
 
 
@@ -118,33 +152,37 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 
 - (CIImage*)_generateRandomImage
 {
-	// Create a CIImage from float data n x n square, randomly generated.
+	// Create a CIImage from float data 242 x 242 square, randomly generated.
 	// Values are float in [a,b].
 	
-	int n = 256;
+	int width = 242;
+	int height = 242;
+	int n = width * height;
 
-	float a = 0.0;
-	float b = 1000.0;
-	srand(123456);
-	
+	float a = 0.25;
+	float b = 0.9;
+	//srand(123456);
+
 	float *data = calloc(n, sizeof(float));
 	float min = MAXFLOAT;
 	for (int i=0; i < n; i++) {
-		data[i] = a + rand() / (RAND_MAX / (b - a + 1) + 1);
-		//data[i] = i/n;
+		float scale = rand() / (float)RAND_MAX; // random value in [0,1]
+		data[i] = a + scale * (b - a);
 		if (data[i] < min)
 			min = data[i];
 		//NSLog(@"values: %f", data[i]);
 	}
 
-	self.imageExtent = [CIVector vectorWithX:0 Y:0 Z:n W:n];
+	self.imageExtent = [CIVector vectorWithX:0 Y:0 Z:width W:height];
 
-	NSLog(@"min value: %f", min);
+	NSLog(@"min value from random data: %f", min);
+
+	normalizeFloatArray01MinMax(data, n, a, b);
 	
 	return [self _ciImageFromData:data
-						   length:n*n*sizeof(float)
-							width:n
-						   height:n];
+						   length:n*sizeof(float)
+							width:width
+						   height:height];
 }
 
 - (CIImage*)_readImageFromFile
@@ -169,7 +207,7 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	FILE *rawDataFile = fopen(dataFilePath.UTF8String, "r");
 	fread(data, sizeof(float), width*height, rawDataFile);
 	fclose(rawDataFile);
-	
+		
 	// print the min, max values calculated by hand
 	float min = data[0];
 	float max = data[0];
@@ -188,7 +226,7 @@ void normalizeFloatArray01MinMax(float *a, unsigned long nelements, float min, f
 	NSLog(@"No. of non-finite values: %d", notFiniteCount);
 	
 	normalizeFloatArray01MinMax(data, n, min, max);
-
+	
 	return [self _ciImageFromData:data
 						   length:width*height*sizeof(float)
 							width:width
